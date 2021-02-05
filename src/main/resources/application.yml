@@ -31,3 +31,8 @@ spring:
 #  logging:
 #    level:
 #      com.jinshipark.hfzf.mapper: debug
+
+
+logging:
+  level:
+    com.jinshipark.cms.mapper: debug

@@ -91,6 +91,12 @@ public class LincensePlateVO {
     @ApiModelProperty(value = "支付ID")
     private String paymentid;
 
+    @ApiModelProperty(value = "1-已退款 0-未退款")
+    private String refundstatus;
+
+    @ApiModelProperty(value = "退款金额")
+    private String refundmoney;
+
     public Integer getLpId() {
         return lpId;
     }
@@ -297,5 +303,21 @@ public class LincensePlateVO {
 
     public void setPaymentid(String paymentid) {
         this.paymentid = paymentid;
+    }
+
+    public String getRefundstatus() {
+        return refundstatus;
+    }
+
+    public void setRefundstatus(String refundstatus) {
+        this.refundstatus = refundstatus;
+    }
+
+    public String getRefundmoney() {
+        return refundmoney;
+    }
+
+    public void setRefundmoney(String refundmoney) {
+        this.refundmoney = refundmoney;
     }
 }

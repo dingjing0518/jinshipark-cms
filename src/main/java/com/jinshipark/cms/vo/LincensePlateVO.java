@@ -97,6 +97,9 @@ public class LincensePlateVO {
     @ApiModelProperty(value = "退款金额")
     private String refundmoney;
 
+    @ApiModelProperty(value = "支付平台订单ID")
+    private String adaorderid;
+
     public Integer getLpId() {
         return lpId;
     }
@@ -319,5 +322,13 @@ public class LincensePlateVO {
 
     public void setRefundmoney(String refundmoney) {
         this.refundmoney = refundmoney;
+    }
+
+    public String getAdaorderid() {
+        return adaorderid;
+    }
+
+    public void setAdaorderid(String adaorderid) {
+        this.adaorderid = adaorderid;
     }
 }

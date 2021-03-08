@@ -27,10 +27,10 @@ public class LincensePlateHistoryServiceImpl implements LincensePlateHistoryServ
         List<LincensePlateHistoryVO> lincensePlateHistoryVOS = new ArrayList<>();
         LincensePlateHistoryExample example = new LincensePlateHistoryExample();
         LincensePlateHistoryExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("lp_create_time desc");
+        example.setOrderByClause("lp_inbound_time desc");
         criteria.andLpParkingNameEqualTo(searchBO.getParkId());
-        criteria.andLpCreateTimeGreaterThan(searchBO.getDateForStartTime());
-        criteria.andLpCreateTimeLessThanOrEqualTo(searchBO.getDateForEndTime());
+        criteria.andLpDepartureTimeGreaterThan(searchBO.getDateForStartTime());
+        criteria.andLpDepartureTimeLessThanOrEqualTo(searchBO.getDateForEndTime());
         criteria.andLpLincensePlateIdCarLike("%" + searchBO.getKeyWord() + "%");
         if (StringUtils.isNotBlank(searchBO.getLpOrderState())) {
             criteria.andLpOrderStateEqualTo(searchBO.getLpOrderState());

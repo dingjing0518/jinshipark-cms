@@ -63,11 +63,11 @@ public class SearchBO {
     }
 
     public Date getDateForStartTime() throws ParseException {
-        return format.parse(this.startTime.toString() + " 00:00:00");
+        return format.parse(this.startTime);
     }
 
     public Date getDateForEndTime() throws ParseException {
-        return format.parse(this.endTime.toString() + " 23:59:59");
+        return format.parse(this.endTime);
     }
 
     public String getLpOrderState() {

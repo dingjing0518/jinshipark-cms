@@ -22,6 +22,7 @@ import java.util.List;
 public class LincensePlateHistoryServiceImpl implements LincensePlateHistoryService {
     @Autowired
     private LincensePlateHistoryMapper lincensePlateHistoryMapper;
+
     @Override
     public PagedGridResult searchLincensePlateHistory(SearchBO searchBO) throws ParseException {
         List<LincensePlateHistoryVO> lincensePlateHistoryVOS = new ArrayList<>();
@@ -34,6 +35,9 @@ public class LincensePlateHistoryServiceImpl implements LincensePlateHistoryServ
         criteria.andLpLincensePlateIdCarLike("%" + searchBO.getKeyWord() + "%");
         if (StringUtils.isNotBlank(searchBO.getLpOrderState())) {
             criteria.andLpOrderStateEqualTo(searchBO.getLpOrderState());
+        }
+        if (StringUtils.isNotBlank(searchBO.getRefundStatus())) {
+            criteria.andRefundstatusEqualTo(searchBO.getRefundStatus());
         }
         // 分页
         PageHelper.startPage(searchBO.getPageNum(), searchBO.getPageSize());

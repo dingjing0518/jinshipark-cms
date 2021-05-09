@@ -14,6 +14,8 @@ public class SearchBO {
     private String startTime;
     private String endTime;
     private String lpOrderState;
+    private String refundStatus;
+
     public Integer getPageNum() {
         return pageNum;
     }
@@ -76,5 +78,13 @@ public class SearchBO {
 
     public void setLpOrderState(String lpOrderState) {
         this.lpOrderState = lpOrderState;
+    }
+
+    public String getRefundStatus() {
+        return refundStatus;
+    }
+
+    public void setRefundStatus(String refundStatus) {
+        this.refundStatus = refundStatus;
     }
 }

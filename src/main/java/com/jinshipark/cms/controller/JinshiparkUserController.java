@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
+
 /**
  * 商户后台用户管理类
  */
@@ -25,7 +27,7 @@ public class JinshiparkUserController {
     @CrossOrigin
     @PostMapping(value = "/login")
     @ResponseBody
-    public JinshiparkJSONResult login(@RequestBody JinshiparkUserBO jinshiparkUserBO) {
+    public JinshiparkJSONResult login(@RequestBody JinshiparkUserBO jinshiparkUserBO) throws NoSuchAlgorithmException {
         return jinshiparkUserService.login(jinshiparkUserBO);
     }
 

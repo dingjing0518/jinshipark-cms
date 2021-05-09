@@ -337,6 +337,25 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="summary" parameterType="Map" resultType="com.jinshipark.cms.vo.SummaryVO">
+    SELECT
+      COUNT(1) AS carNum,
+      SUM(lp_parking_cost) AS parkingCost,
+      SUM(lp_parking_real_cost) AS realCost
+    FROM
+	    lincense_plate_history
+	WHERE
+	    1=1
+    <if test="parkId != null">
+        AND lp_parking_name=#{parkId}
+    </if>
+	<if test="startTime != null">
+      AND lp_departure_time&gt;=#{startTime}
+    </if>
+    <if test="endTime != null">
+      AND lp_departure_time&lt;=#{endTime}
+    </if>
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update lincense_plate_history
     <set>

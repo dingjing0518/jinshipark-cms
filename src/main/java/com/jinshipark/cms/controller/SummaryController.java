@@ -14,8 +14,11 @@ public class SummaryController {
     @Autowired
     private SummaryService summaryService;
 
+    /**
+     * 当日汇总
+     */
     @CrossOrigin
-    @RequestMapping(value = "/financialSummary", method = RequestMethod.POST)
+    @RequestMapping(value = "/todaySummary", method = RequestMethod.POST)
     @ResponseBody
     public JinshiparkJSONResult financialSummary(@RequestBody SearchBO searchBO) throws ParseException {
         return summaryService.financialSummary(searchBO);

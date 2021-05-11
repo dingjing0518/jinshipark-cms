@@ -33,4 +33,6 @@ public interface LincensePlateHistoryMapper {
     int updateByPrimaryKey(LincensePlateHistory record);
 
     List<SummaryVO> summary(Map<String, Object> map);
+
+    List<SummaryVO> dailySummary();
 }

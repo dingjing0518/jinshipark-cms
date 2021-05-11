@@ -5,6 +5,7 @@ public class SummaryVO {
     private String parkingCost;
     private String realCost;
     private String refundMoney;
+    private String parkId;
 
     public String getCarNum() {
         return carNum == null ? "0" : carNum;
@@ -36,5 +37,13 @@ public class SummaryVO {
 
     public void setRefundMoney(String refundMoney) {
         this.refundMoney = refundMoney;
+    }
+
+    public String getParkId() {
+        return parkId;
+    }
+
+    public void setParkId(String parkId) {
+        this.parkId = parkId;
     }
 }

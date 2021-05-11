@@ -1,48 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jinshipark.cms.mapper.JinshiparkReturnmoneyMapper">
-  <resultMap id="BaseResultMap" type="com.jinshipark.cms.model.JinshiparkReturnmoney">
+<mapper namespace="com.jinshipark.cms.mapper.JinshiparkDaysumMapper">
+  <resultMap id="BaseResultMap" type="com.jinshipark.cms.model.JinshiparkDaysum">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="CarNum" jdbcType="VARCHAR" property="carnum" />
-    <result column="OrderID" jdbcType="VARCHAR" property="orderid" />
-    <result column="HFOrderID" jdbcType="VARCHAR" property="hforderid" />
+    <result column="Date" jdbcType="TIMESTAMP" property="date" />
+    <result column="ParkFee" jdbcType="VARCHAR" property="parkfee" />
+    <result column="RealParkFee" jdbcType="VARCHAR" property="realparkfee" />
     <result column="ReturnMoney" jdbcType="VARCHAR" property="returnmoney" />
-    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
-    <result column="UserName" jdbcType="VARCHAR" property="username" />
     <result column="ParkID" jdbcType="VARCHAR" property="parkid" />
     <result column="Remarks" jdbcType="VARCHAR" property="remarks" />
   </resultMap>
-  <select id="summary" parameterType="Map" resultType="com.jinshipark.cms.vo.SummaryVO">
-    SELECT
-        SUM(ReturnMoney) AS refundMoney
-    FROM
-        jinshipark_returnmoney
-    WHERE
-        1=1
-    <if test="parkId != null">
-        AND ParkID=#{parkId}
-    </if>
-    <if test="startTime != null">
-        AND CreateTime&gt;=#{startTime}
-    </if>
-    <if test="endTime != null">
-        AND CreateTime&lt;=#{endTime}
-    </if>
-  </select>
-  <select id="dailySummary" resultType="com.jinshipark.cms.vo.SummaryVO">
-    SELECT
-      ParkID AS parkId,
-      SUM(ReturnMoney) AS refundMoney
-    FROM
-      jinshipark_returnmoney
-     WHERE
-      DATE_FORMAT(
-          CreateTime,
-          '%Y-%m-%d'
-      ) = date_sub(curdate(), INTERVAL 1 DAY)
-    GROUP BY
-      ParkID
-  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -102,15 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, CarNum, OrderID, HFOrderID, ReturnMoney, CreateTime, UserName, ParkID, Remarks
+    id, Date, ParkFee, RealParkFee, ReturnMoney, ParkID, Remarks
   </sql>
-  <select id="selectByExample" parameterType="com.jinshipark.cms.model.JinshiparkReturnmoneyExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.jinshipark.cms.model.JinshiparkDaysumExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jinshipark_returnmoney
+    from jinshipark_daysum
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -119,55 +86,65 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
-    from jinshipark_returnmoney
+    from jinshipark_daysum
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from jinshipark_returnmoney
+    delete from jinshipark_daysum
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.jinshipark.cms.model.JinshiparkReturnmoneyExample">
-    delete from jinshipark_returnmoney
+  <delete id="deleteByExample" parameterType="com.jinshipark.cms.model.JinshiparkDaysumExample">
+    delete from jinshipark_daysum
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.jinshipark.cms.model.JinshiparkReturnmoney">
+  <insert id="insert" parameterType="com.jinshipark.cms.model.JinshiparkDaysum">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into jinshipark_returnmoney (CarNum, OrderID, HFOrderID, 
-      ReturnMoney, CreateTime, UserName, 
-      ParkID, Remarks)
-    values (#{carnum,jdbcType=VARCHAR}, #{orderid,jdbcType=VARCHAR}, #{hforderid,jdbcType=VARCHAR}, 
-      #{returnmoney,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{username,jdbcType=VARCHAR}, 
-      #{parkid,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
+    insert into jinshipark_daysum (Date, ParkFee, RealParkFee,
+      ReturnMoney, ParkID, Remarks
+      )
+    values (#{date,jdbcType=TIMESTAMP}, #{parkfee,jdbcType=VARCHAR}, #{realparkfee,jdbcType=VARCHAR},
+      #{returnmoney,jdbcType=VARCHAR}, #{parkid,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.jinshipark.cms.model.JinshiparkReturnmoney">
+  <insert id="batchInsert" parameterType="List">
+    insert into jinshipark_daysum (Date, ParkFee, RealParkFee,
+    ReturnMoney, ParkID, Remarks
+    )
+    values
+    <foreach collection="jinshiparkDaysumList" item="item" index="index" separator=",">
+      (
+        now(),
+        #{item.parkfee},
+        #{item.realparkfee},
+        #{item.returnmoney},
+        #{item.parkid},
+        #{item.remarks}
+      )
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.jinshipark.cms.model.JinshiparkDaysum">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into jinshipark_returnmoney
+    insert into jinshipark_daysum
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="carnum != null">
-        CarNum,
+      <if test="date != null">
+        Date,
       </if>
-      <if test="orderid != null">
-        OrderID,
+      <if test="parkfee != null">
+        ParkFee,
       </if>
-      <if test="hforderid != null">
-        HFOrderID,
+      <if test="realparkfee != null">
+        RealParkFee,
       </if>
       <if test="returnmoney != null">
         ReturnMoney,
-      </if>
-      <if test="createtime != null">
-        CreateTime,
-      </if>
-      <if test="username != null">
-        UserName,
       </if>
       <if test="parkid != null">
         ParkID,
@@ -177,23 +154,17 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="carnum != null">
-        #{carnum,jdbcType=VARCHAR},
+      <if test="date != null">
+        #{date,jdbcType=TIMESTAMP},
       </if>
-      <if test="orderid != null">
-        #{orderid,jdbcType=VARCHAR},
+      <if test="parkfee != null">
+        #{parkfee,jdbcType=VARCHAR},
       </if>
-      <if test="hforderid != null">
-        #{hforderid,jdbcType=VARCHAR},
+      <if test="realparkfee != null">
+        #{realparkfee,jdbcType=VARCHAR},
       </if>
       <if test="returnmoney != null">
         #{returnmoney,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
       </if>
       <if test="parkid != null">
         #{parkid,jdbcType=VARCHAR},
@@ -203,35 +174,29 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.jinshipark.cms.model.JinshiparkReturnmoneyExample" resultType="java.lang.Long">
-    select count(*) from jinshipark_returnmoney
+  <select id="countByExample" parameterType="com.jinshipark.cms.model.JinshiparkDaysumExample" resultType="java.lang.Long">
+    select count(*) from jinshipark_daysum
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jinshipark_returnmoney
+    update jinshipark_daysum
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.carnum != null">
-        CarNum = #{record.carnum,jdbcType=VARCHAR},
+      <if test="record.date != null">
+        Date = #{record.date,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.orderid != null">
-        OrderID = #{record.orderid,jdbcType=VARCHAR},
+      <if test="record.parkfee != null">
+        ParkFee = #{record.parkfee,jdbcType=VARCHAR},
       </if>
-      <if test="record.hforderid != null">
-        HFOrderID = #{record.hforderid,jdbcType=VARCHAR},
+      <if test="record.realparkfee != null">
+        RealParkFee = #{record.realparkfee,jdbcType=VARCHAR},
       </if>
       <if test="record.returnmoney != null">
         ReturnMoney = #{record.returnmoney,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createtime != null">
-        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.username != null">
-        UserName = #{record.username,jdbcType=VARCHAR},
       </if>
       <if test="record.parkid != null">
         ParkID = #{record.parkid,jdbcType=VARCHAR},
@@ -245,40 +210,32 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jinshipark_returnmoney
+    update jinshipark_daysum
     set id = #{record.id,jdbcType=INTEGER},
-      CarNum = #{record.carnum,jdbcType=VARCHAR},
-      OrderID = #{record.orderid,jdbcType=VARCHAR},
-      HFOrderID = #{record.hforderid,jdbcType=VARCHAR},
+      Date = #{record.date,jdbcType=TIMESTAMP},
+      ParkFee = #{record.parkfee,jdbcType=VARCHAR},
+      RealParkFee = #{record.realparkfee,jdbcType=VARCHAR},
       ReturnMoney = #{record.returnmoney,jdbcType=VARCHAR},
-      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
-      UserName = #{record.username,jdbcType=VARCHAR},
       ParkID = #{record.parkid,jdbcType=VARCHAR},
       Remarks = #{record.remarks,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jinshipark.cms.model.JinshiparkReturnmoney">
-    update jinshipark_returnmoney
+  <update id="updateByPrimaryKeySelective" parameterType="com.jinshipark.cms.model.JinshiparkDaysum">
+    update jinshipark_daysum
     <set>
-      <if test="carnum != null">
-        CarNum = #{carnum,jdbcType=VARCHAR},
+      <if test="date != null">
+        Date = #{date,jdbcType=TIMESTAMP},
       </if>
-      <if test="orderid != null">
-        OrderID = #{orderid,jdbcType=VARCHAR},
+      <if test="parkfee != null">
+        ParkFee = #{parkfee,jdbcType=VARCHAR},
       </if>
-      <if test="hforderid != null">
-        HFOrderID = #{hforderid,jdbcType=VARCHAR},
+      <if test="realparkfee != null">
+        RealParkFee = #{realparkfee,jdbcType=VARCHAR},
       </if>
       <if test="returnmoney != null">
         ReturnMoney = #{returnmoney,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        CreateTime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="username != null">
-        UserName = #{username,jdbcType=VARCHAR},
       </if>
       <if test="parkid != null">
         ParkID = #{parkid,jdbcType=VARCHAR},
@@ -289,14 +246,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jinshipark.cms.model.JinshiparkReturnmoney">
-    update jinshipark_returnmoney
-    set CarNum = #{carnum,jdbcType=VARCHAR},
-      OrderID = #{orderid,jdbcType=VARCHAR},
-      HFOrderID = #{hforderid,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.jinshipark.cms.model.JinshiparkDaysum">
+    update jinshipark_daysum
+    set Date = #{date,jdbcType=TIMESTAMP},
+      ParkFee = #{parkfee,jdbcType=VARCHAR},
+      RealParkFee = #{realparkfee,jdbcType=VARCHAR},
       ReturnMoney = #{returnmoney,jdbcType=VARCHAR},
-      CreateTime = #{createtime,jdbcType=TIMESTAMP},
-      UserName = #{username,jdbcType=VARCHAR},
       ParkID = #{parkid,jdbcType=VARCHAR},
       Remarks = #{remarks,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

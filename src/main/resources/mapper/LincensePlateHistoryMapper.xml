@@ -356,6 +356,23 @@
       AND lp_departure_time&lt;=#{endTime}
     </if>
   </select>
+  <!--汇总前一天的数据-->
+  <select id="dailySummary" resultType="com.jinshipark.cms.vo.SummaryVO">
+      SELECT
+        lp_parking_name AS parkId,
+        COUNT(1) AS carNum,
+        SUM(lp_parking_cost) AS parkingCost,
+        SUM(lp_parking_real_cost) AS realCost
+    FROM
+        lincense_plate_history
+    WHERE
+        DATE_FORMAT(
+            lp_departure_time,
+            '%Y-%m-%d'
+        ) = date_sub(curdate(), INTERVAL 1 DAY)
+    GROUP BY
+        lp_parking_name
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update lincense_plate_history
     <set>

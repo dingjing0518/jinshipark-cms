@@ -10,6 +10,9 @@ public class JinshiparkDaysum implements Serializable {
     @ApiModelProperty(value = "日期")
     private Date date;
 
+    @ApiModelProperty(value = "付费车辆数")
+    private String carsum;
+
     @ApiModelProperty(value = "应收停车费")
     private String parkfee;
 
@@ -41,6 +44,14 @@ public class JinshiparkDaysum implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getCarsum() {
+        return carsum;
+    }
+
+    public void setCarsum(String carsum) {
+        this.carsum = carsum;
     }
 
     public String getParkfee() {
@@ -91,6 +102,7 @@ public class JinshiparkDaysum implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", date=").append(date);
+        sb.append(", carsum=").append(carsum);
         sb.append(", parkfee=").append(parkfee);
         sb.append(", realparkfee=").append(realparkfee);
         sb.append(", returnmoney=").append(returnmoney);

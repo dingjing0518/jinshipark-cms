@@ -1,11 +1,29 @@
 package com.jinshipark.cms.vo;
 
 public class SummaryVO {
+    private String date;
     private String carNum;
     private String parkingCost;
     private String realCost;
     private String refundMoney;
     private String parkId;
+    private String remarks;
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getCarNum() {
         return carNum == null ? "0" : carNum;

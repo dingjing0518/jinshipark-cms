@@ -20,7 +20,38 @@ public class SummaryController {
     @CrossOrigin
     @RequestMapping(value = "/todaySummary", method = RequestMethod.POST)
     @ResponseBody
-    public JinshiparkJSONResult financialSummary(@RequestBody SearchBO searchBO) throws ParseException {
-        return summaryService.financialSummary(searchBO);
+    public JinshiparkJSONResult todaySummary(@RequestBody SearchBO searchBO) throws ParseException {
+        return summaryService.todaySummary(searchBO);
+    }
+
+    /**
+     * 每日汇总
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/dailySummary", method = RequestMethod.POST)
+    @ResponseBody
+    public JinshiparkJSONResult dailySummary(@RequestBody SearchBO searchBO){
+        return JinshiparkJSONResult.ok(summaryService.dailySummary(searchBO));
+    }
+
+
+    /**
+     * 每月汇总
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/monthlySummary", method = RequestMethod.POST)
+    @ResponseBody
+    public JinshiparkJSONResult monthlySummary(@RequestBody SearchBO searchBO){
+        return JinshiparkJSONResult.ok(summaryService.monthlySummary(searchBO));
+    }
+
+    /**
+     * 每年汇总
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/annuallySummary", method = RequestMethod.POST)
+    @ResponseBody
+    public JinshiparkJSONResult annuallySummary(@RequestBody SearchBO searchBO){
+        return JinshiparkJSONResult.ok(summaryService.annuallySummary(searchBO));
     }
 }

@@ -34,6 +34,6 @@ public class SummaryScheduleTaskServiceImpl implements SummaryScheduleTaskServic
                 }
             }
         }
-//        jinshiparkDaysumMapper.batchInsert()
+        jinshiparkDaysumMapper.batchInsert(plateHistoryList);
     }
 }

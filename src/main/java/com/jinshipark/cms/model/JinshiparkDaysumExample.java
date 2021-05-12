@@ -225,6 +225,76 @@ public class JinshiparkDaysumExample {
             return (Criteria) this;
         }
 
+        public Criteria andCarsumIsNull() {
+            addCriterion("CarSum is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumIsNotNull() {
+            addCriterion("CarSum is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumEqualTo(String value) {
+            addCriterion("CarSum =", value, "carsum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumNotEqualTo(String value) {
+            addCriterion("CarSum <>", value, "carsum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumGreaterThan(String value) {
+            addCriterion("CarSum >", value, "carsum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumGreaterThanOrEqualTo(String value) {
+            addCriterion("CarSum >=", value, "carsum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumLessThan(String value) {
+            addCriterion("CarSum <", value, "carsum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumLessThanOrEqualTo(String value) {
+            addCriterion("CarSum <=", value, "carsum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumLike(String value) {
+            addCriterion("CarSum like", value, "carsum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumNotLike(String value) {
+            addCriterion("CarSum not like", value, "carsum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumIn(List<String> values) {
+            addCriterion("CarSum in", values, "carsum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumNotIn(List<String> values) {
+            addCriterion("CarSum not in", values, "carsum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumBetween(String value1, String value2) {
+            addCriterion("CarSum between", value1, value2, "carsum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarsumNotBetween(String value1, String value2) {
+            addCriterion("CarSum not between", value1, value2, "carsum");
+            return (Criteria) this;
+        }
+
         public Criteria andParkfeeIsNull() {
             addCriterion("ParkFee is null");
             return (Criteria) this;

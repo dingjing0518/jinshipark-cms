@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.jinshipark.cms.model.JinshiparkDaysum">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="Date" jdbcType="TIMESTAMP" property="date" />
+    <result column="CarSum" jdbcType="VARCHAR" property="carsum" />
     <result column="ParkFee" jdbcType="VARCHAR" property="parkfee" />
     <result column="RealParkFee" jdbcType="VARCHAR" property="realparkfee" />
     <result column="ReturnMoney" jdbcType="VARCHAR" property="returnmoney" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, Date, ParkFee, RealParkFee, ReturnMoney, ParkID, Remarks
+    id, Date, CarSum, ParkFee, RealParkFee, ReturnMoney, ParkID, Remarks
   </sql>
   <select id="selectByExample" parameterType="com.jinshipark.cms.model.JinshiparkDaysumExample" resultMap="BaseResultMap">
     select
@@ -86,7 +87,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from jinshipark_daysum
     where id = #{id,jdbcType=INTEGER}
@@ -105,29 +106,103 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into jinshipark_daysum (Date, ParkFee, RealParkFee,
-      ReturnMoney, ParkID, Remarks
-      )
-    values (#{date,jdbcType=TIMESTAMP}, #{parkfee,jdbcType=VARCHAR}, #{realparkfee,jdbcType=VARCHAR},
-      #{returnmoney,jdbcType=VARCHAR}, #{parkid,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
-      )
+    insert into jinshipark_daysum (Date, CarSum, ParkFee, 
+      RealParkFee, ReturnMoney, ParkID, 
+      Remarks)
+    values (#{date,jdbcType=TIMESTAMP}, #{carsum,jdbcType=VARCHAR}, #{parkfee,jdbcType=VARCHAR}, 
+      #{realparkfee,jdbcType=VARCHAR}, #{returnmoney,jdbcType=VARCHAR}, #{parkid,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR})
   </insert>
   <insert id="batchInsert" parameterType="List">
-    insert into jinshipark_daysum (Date, ParkFee, RealParkFee,
+    insert into jinshipark_daysum (Date, CarSum,ParkFee, RealParkFee,
     ReturnMoney, ParkID, Remarks
     )
     values
     <foreach collection="jinshiparkDaysumList" item="item" index="index" separator=",">
       (
-        now(),
-        #{item.parkfee},
-        #{item.realparkfee},
-        #{item.returnmoney},
-        #{item.parkid},
+        date_sub(curdate(),interval 1 day),
+        #{item.carNum},
+        #{item.parkingCost},
+        #{item.realCost},
+        #{item.refundMoney},
+        #{item.parkId},
         #{item.remarks}
       )
     </foreach>
   </insert>
+  <select id="dailySummary" parameterType="Map" resultType="com.jinshipark.cms.vo.SummaryVO">
+    SELECT
+      DATE_FORMAT(Date, '%Y-%m-%d') AS date,
+      CarSum AS carNum,
+      ParkFee AS parkingCost,
+      RealParkFee AS realCost,
+      ReturnMoney AS refundMoney
+    FROM
+        jinshipark_daysum
+    WHERE
+        1=1
+    <if test="parkId != null">
+      AND ParkID = #{parkId}
+    </if>
+    <if test="startTime != null">
+      AND DATE_FORMAT(Date, '%Y-%m-%d') &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+      AND DATE_FORMAT(Date, '%Y-%m-%d') &lt;= #{endTime}
+    </if>
+    ORDER BY
+        DATE_FORMAT(Date, '%Y-%m-%d') DESC
+  </select>
+  <select id="monthlySummary" parameterType="Map" resultType="com.jinshipark.cms.vo.SummaryVO">
+    SELECT
+      DATE_FORMAT(Date, '%Y-%m') AS date,
+      sum(CarSum) AS carNum,
+      sum(ParkFee) AS parkingCost,
+      sum(RealParkFee) AS realCost,
+      sum(ReturnMoney) AS refundMoney
+    FROM
+        jinshipark_daysum
+    WHERE
+        1 = 1
+    <if test="parkId != null">
+        AND ParkID = #{parkId}
+    </if>
+    <if test="startTime != null">
+        AND DATE_FORMAT(Date, '%Y-%m') &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+        AND DATE_FORMAT(Date, '%Y-%m') &lt;= #{endTime}
+    </if>
+    GROUP BY
+        DATE_FORMAT(Date, '%Y-%m')
+    ORDER BY
+        DATE_FORMAT(Date, '%Y-%m') DESC
+  </select>
+  <select id="annuallySummary" parameterType="Map" resultType="com.jinshipark.cms.vo.SummaryVO">
+    SELECT
+      DATE_FORMAT(Date, '%Y') AS date,
+      sum(CarSum) AS carNum,
+      sum(ParkFee) AS parkingCost,
+      sum(RealParkFee) AS realCost,
+      sum(ReturnMoney) AS refundMoney
+    FROM
+        jinshipark_daysum
+    WHERE
+        1 = 1
+    <if test="parkId != null">
+        AND ParkID = #{parkId}
+    </if>
+    <if test="startTime != null">
+        AND DATE_FORMAT(Date, '%Y') &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+        AND DATE_FORMAT(Date, '%Y') &lt;= #{endTime}
+    </if>
+    GROUP BY
+        DATE_FORMAT(Date, '%Y')
+    ORDER BY
+        DATE_FORMAT(Date, '%Y') DESC
+  </select>
   <insert id="insertSelective" parameterType="com.jinshipark.cms.model.JinshiparkDaysum">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
@@ -136,6 +211,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="date != null">
         Date,
+      </if>
+      <if test="carsum != null">
+        CarSum,
       </if>
       <if test="parkfee != null">
         ParkFee,
@@ -156,6 +234,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="date != null">
         #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carsum != null">
+        #{carsum,jdbcType=VARCHAR},
       </if>
       <if test="parkfee != null">
         #{parkfee,jdbcType=VARCHAR},
@@ -189,6 +270,9 @@
       <if test="record.date != null">
         Date = #{record.date,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.carsum != null">
+        CarSum = #{record.carsum,jdbcType=VARCHAR},
+      </if>
       <if test="record.parkfee != null">
         ParkFee = #{record.parkfee,jdbcType=VARCHAR},
       </if>
@@ -213,6 +297,7 @@
     update jinshipark_daysum
     set id = #{record.id,jdbcType=INTEGER},
       Date = #{record.date,jdbcType=TIMESTAMP},
+      CarSum = #{record.carsum,jdbcType=VARCHAR},
       ParkFee = #{record.parkfee,jdbcType=VARCHAR},
       RealParkFee = #{record.realparkfee,jdbcType=VARCHAR},
       ReturnMoney = #{record.returnmoney,jdbcType=VARCHAR},
@@ -227,6 +312,9 @@
     <set>
       <if test="date != null">
         Date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carsum != null">
+        CarSum = #{carsum,jdbcType=VARCHAR},
       </if>
       <if test="parkfee != null">
         ParkFee = #{parkfee,jdbcType=VARCHAR},
@@ -249,6 +337,7 @@
   <update id="updateByPrimaryKey" parameterType="com.jinshipark.cms.model.JinshiparkDaysum">
     update jinshipark_daysum
     set Date = #{date,jdbcType=TIMESTAMP},
+      CarSum = #{carsum,jdbcType=VARCHAR},
       ParkFee = #{parkfee,jdbcType=VARCHAR},
       RealParkFee = #{realparkfee,jdbcType=VARCHAR},
       ReturnMoney = #{returnmoney,jdbcType=VARCHAR},

@@ -7,7 +7,12 @@
     <result column="CarSum" jdbcType="VARCHAR" property="carsum" />
     <result column="ParkFee" jdbcType="VARCHAR" property="parkfee" />
     <result column="RealParkFee" jdbcType="VARCHAR" property="realparkfee" />
+    <result column="PrePayMoney" jdbcType="VARCHAR" property="prepaymoney" />
+    <result column="ScanPayMoney" jdbcType="VARCHAR" property="scanpaymoney" />
+    <result column="ManualMoney" jdbcType="VARCHAR" property="manualmoney" />
+    <result column="ServiceFee" jdbcType="VARCHAR" property="servicefee" />
     <result column="ReturnMoney" jdbcType="VARCHAR" property="returnmoney" />
+    <result column="RefundServiceFee" jdbcType="VARCHAR" property="refundservicefee" />
     <result column="ParkID" jdbcType="VARCHAR" property="parkid" />
     <result column="Remarks" jdbcType="VARCHAR" property="remarks" />
   </resultMap>
@@ -70,7 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, Date, CarSum, ParkFee, RealParkFee, ReturnMoney, ParkID, Remarks
+    id, Date, CarSum, ParkFee, RealParkFee, PrePayMoney, ScanPayMoney, ManualMoney, ServiceFee, 
+    ReturnMoney, RefundServiceFee, ParkID, Remarks
   </sql>
   <select id="selectByExample" parameterType="com.jinshipark.cms.model.JinshiparkDaysumExample" resultMap="BaseResultMap">
     select
@@ -107,102 +113,16 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into jinshipark_daysum (Date, CarSum, ParkFee, 
-      RealParkFee, ReturnMoney, ParkID, 
-      Remarks)
-    values (#{date,jdbcType=TIMESTAMP}, #{carsum,jdbcType=VARCHAR}, #{parkfee,jdbcType=VARCHAR}, 
-      #{realparkfee,jdbcType=VARCHAR}, #{returnmoney,jdbcType=VARCHAR}, #{parkid,jdbcType=VARCHAR}, 
-      #{remarks,jdbcType=VARCHAR})
-  </insert>
-  <insert id="batchInsert" parameterType="List">
-    insert into jinshipark_daysum (Date, CarSum,ParkFee, RealParkFee,
-    ReturnMoney, ParkID, Remarks
-    )
-    values
-    <foreach collection="jinshiparkDaysumList" item="item" index="index" separator=",">
-      (
-        date_sub(curdate(),interval 1 day),
-        #{item.carNum},
-        #{item.parkingCost},
-        #{item.realCost},
-        #{item.refundMoney},
-        #{item.parkId},
-        #{item.remarks}
+      RealParkFee, PrePayMoney, ScanPayMoney, 
+      ManualMoney, ServiceFee, ReturnMoney, 
+      RefundServiceFee, ParkID, Remarks
       )
-    </foreach>
+    values (#{date,jdbcType=TIMESTAMP}, #{carsum,jdbcType=VARCHAR}, #{parkfee,jdbcType=VARCHAR}, 
+      #{realparkfee,jdbcType=VARCHAR}, #{prepaymoney,jdbcType=VARCHAR}, #{scanpaymoney,jdbcType=VARCHAR}, 
+      #{manualmoney,jdbcType=VARCHAR}, #{servicefee,jdbcType=VARCHAR}, #{returnmoney,jdbcType=VARCHAR}, 
+      #{refundservicefee,jdbcType=VARCHAR}, #{parkid,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
+      )
   </insert>
-  <select id="dailySummary" parameterType="Map" resultType="com.jinshipark.cms.vo.SummaryVO">
-    SELECT
-      DATE_FORMAT(Date, '%Y-%m-%d') AS date,
-      CarSum AS carNum,
-      ParkFee AS parkingCost,
-      RealParkFee AS realCost,
-      ReturnMoney AS refundMoney
-    FROM
-        jinshipark_daysum
-    WHERE
-        1=1
-    <if test="parkId != null">
-      AND ParkID = #{parkId}
-    </if>
-    <if test="startTime != null">
-      AND DATE_FORMAT(Date, '%Y-%m-%d') &gt;= #{startTime}
-    </if>
-    <if test="endTime != null">
-      AND DATE_FORMAT(Date, '%Y-%m-%d') &lt;= #{endTime}
-    </if>
-    ORDER BY
-        DATE_FORMAT(Date, '%Y-%m-%d') DESC
-  </select>
-  <select id="monthlySummary" parameterType="Map" resultType="com.jinshipark.cms.vo.SummaryVO">
-    SELECT
-      DATE_FORMAT(Date, '%Y-%m') AS date,
-      sum(CarSum) AS carNum,
-      sum(ParkFee) AS parkingCost,
-      sum(RealParkFee) AS realCost,
-      sum(ReturnMoney) AS refundMoney
-    FROM
-        jinshipark_daysum
-    WHERE
-        1 = 1
-    <if test="parkId != null">
-        AND ParkID = #{parkId}
-    </if>
-    <if test="startTime != null">
-        AND DATE_FORMAT(Date, '%Y-%m') &gt;= #{startTime}
-    </if>
-    <if test="endTime != null">
-        AND DATE_FORMAT(Date, '%Y-%m') &lt;= #{endTime}
-    </if>
-    GROUP BY
-        DATE_FORMAT(Date, '%Y-%m')
-    ORDER BY
-        DATE_FORMAT(Date, '%Y-%m') DESC
-  </select>
-  <select id="annuallySummary" parameterType="Map" resultType="com.jinshipark.cms.vo.SummaryVO">
-    SELECT
-      DATE_FORMAT(Date, '%Y') AS date,
-      sum(CarSum) AS carNum,
-      sum(ParkFee) AS parkingCost,
-      sum(RealParkFee) AS realCost,
-      sum(ReturnMoney) AS refundMoney
-    FROM
-        jinshipark_daysum
-    WHERE
-        1 = 1
-    <if test="parkId != null">
-        AND ParkID = #{parkId}
-    </if>
-    <if test="startTime != null">
-        AND DATE_FORMAT(Date, '%Y') &gt;= #{startTime}
-    </if>
-    <if test="endTime != null">
-        AND DATE_FORMAT(Date, '%Y') &lt;= #{endTime}
-    </if>
-    GROUP BY
-        DATE_FORMAT(Date, '%Y')
-    ORDER BY
-        DATE_FORMAT(Date, '%Y') DESC
-  </select>
   <insert id="insertSelective" parameterType="com.jinshipark.cms.model.JinshiparkDaysum">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
@@ -221,8 +141,23 @@
       <if test="realparkfee != null">
         RealParkFee,
       </if>
+      <if test="prepaymoney != null">
+        PrePayMoney,
+      </if>
+      <if test="scanpaymoney != null">
+        ScanPayMoney,
+      </if>
+      <if test="manualmoney != null">
+        ManualMoney,
+      </if>
+      <if test="servicefee != null">
+        ServiceFee,
+      </if>
       <if test="returnmoney != null">
         ReturnMoney,
+      </if>
+      <if test="refundservicefee != null">
+        RefundServiceFee,
       </if>
       <if test="parkid != null">
         ParkID,
@@ -244,8 +179,23 @@
       <if test="realparkfee != null">
         #{realparkfee,jdbcType=VARCHAR},
       </if>
+      <if test="prepaymoney != null">
+        #{prepaymoney,jdbcType=VARCHAR},
+      </if>
+      <if test="scanpaymoney != null">
+        #{scanpaymoney,jdbcType=VARCHAR},
+      </if>
+      <if test="manualmoney != null">
+        #{manualmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="servicefee != null">
+        #{servicefee,jdbcType=VARCHAR},
+      </if>
       <if test="returnmoney != null">
         #{returnmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="refundservicefee != null">
+        #{refundservicefee,jdbcType=VARCHAR},
       </if>
       <if test="parkid != null">
         #{parkid,jdbcType=VARCHAR},
@@ -279,8 +229,23 @@
       <if test="record.realparkfee != null">
         RealParkFee = #{record.realparkfee,jdbcType=VARCHAR},
       </if>
+      <if test="record.prepaymoney != null">
+        PrePayMoney = #{record.prepaymoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scanpaymoney != null">
+        ScanPayMoney = #{record.scanpaymoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manualmoney != null">
+        ManualMoney = #{record.manualmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.servicefee != null">
+        ServiceFee = #{record.servicefee,jdbcType=VARCHAR},
+      </if>
       <if test="record.returnmoney != null">
         ReturnMoney = #{record.returnmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refundservicefee != null">
+        RefundServiceFee = #{record.refundservicefee,jdbcType=VARCHAR},
       </if>
       <if test="record.parkid != null">
         ParkID = #{record.parkid,jdbcType=VARCHAR},
@@ -300,7 +265,12 @@
       CarSum = #{record.carsum,jdbcType=VARCHAR},
       ParkFee = #{record.parkfee,jdbcType=VARCHAR},
       RealParkFee = #{record.realparkfee,jdbcType=VARCHAR},
+      PrePayMoney = #{record.prepaymoney,jdbcType=VARCHAR},
+      ScanPayMoney = #{record.scanpaymoney,jdbcType=VARCHAR},
+      ManualMoney = #{record.manualmoney,jdbcType=VARCHAR},
+      ServiceFee = #{record.servicefee,jdbcType=VARCHAR},
       ReturnMoney = #{record.returnmoney,jdbcType=VARCHAR},
+      RefundServiceFee = #{record.refundservicefee,jdbcType=VARCHAR},
       ParkID = #{record.parkid,jdbcType=VARCHAR},
       Remarks = #{record.remarks,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -322,8 +292,23 @@
       <if test="realparkfee != null">
         RealParkFee = #{realparkfee,jdbcType=VARCHAR},
       </if>
+      <if test="prepaymoney != null">
+        PrePayMoney = #{prepaymoney,jdbcType=VARCHAR},
+      </if>
+      <if test="scanpaymoney != null">
+        ScanPayMoney = #{scanpaymoney,jdbcType=VARCHAR},
+      </if>
+      <if test="manualmoney != null">
+        ManualMoney = #{manualmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="servicefee != null">
+        ServiceFee = #{servicefee,jdbcType=VARCHAR},
+      </if>
       <if test="returnmoney != null">
         ReturnMoney = #{returnmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="refundservicefee != null">
+        RefundServiceFee = #{refundservicefee,jdbcType=VARCHAR},
       </if>
       <if test="parkid != null">
         ParkID = #{parkid,jdbcType=VARCHAR},
@@ -340,7 +325,12 @@
       CarSum = #{carsum,jdbcType=VARCHAR},
       ParkFee = #{parkfee,jdbcType=VARCHAR},
       RealParkFee = #{realparkfee,jdbcType=VARCHAR},
+      PrePayMoney = #{prepaymoney,jdbcType=VARCHAR},
+      ScanPayMoney = #{scanpaymoney,jdbcType=VARCHAR},
+      ManualMoney = #{manualmoney,jdbcType=VARCHAR},
+      ServiceFee = #{servicefee,jdbcType=VARCHAR},
       ReturnMoney = #{returnmoney,jdbcType=VARCHAR},
+      RefundServiceFee = #{refundservicefee,jdbcType=VARCHAR},
       ParkID = #{parkid,jdbcType=VARCHAR},
       Remarks = #{remarks,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

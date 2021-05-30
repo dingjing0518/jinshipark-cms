@@ -1,13 +1,23 @@
 package com.jinshipark.cms.vo;
 
+import java.util.List;
+
 public class SummaryVO {
     private String date;
     private String carNum;
     private String parkingCost;
     private String realCost;
-    private String refundMoney;
+    private String prePayMoney;//预付费用金额
+    private String scanPayMoney;//扫码付费金额
+    private String manualMoney;//人工收费金额
+    private String refundMoney;//退款金额
     private String parkId;
     private String remarks;
+    private String paymentType;
+    private String serviceFee;
+    private String refundServiceFee;//退费手续费
+
+    List<SummaryVO> summaryVOList;
 
     public String getRemarks() {
         return remarks;
@@ -63,5 +73,61 @@ public class SummaryVO {
 
     public void setParkId(String parkId) {
         this.parkId = parkId;
+    }
+
+    public List<SummaryVO> getSummaryVOList() {
+        return summaryVOList;
+    }
+
+    public void setSummaryVOList(List<SummaryVO> summaryVOList) {
+        this.summaryVOList = summaryVOList;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public String getServiceFee() {
+        return serviceFee;
+    }
+
+    public void setServiceFee(String serviceFee) {
+        this.serviceFee = serviceFee;
+    }
+
+    public String getPrePayMoney() {
+        return prePayMoney;
+    }
+
+    public void setPrePayMoney(String prePayMoney) {
+        this.prePayMoney = prePayMoney;
+    }
+
+    public String getScanPayMoney() {
+        return scanPayMoney;
+    }
+
+    public void setScanPayMoney(String scanPayMoney) {
+        this.scanPayMoney = scanPayMoney;
+    }
+
+    public String getManualMoney() {
+        return manualMoney;
+    }
+
+    public void setManualMoney(String manualMoney) {
+        this.manualMoney = manualMoney;
+    }
+
+    public String getRefundServiceFee() {
+        return refundServiceFee;
+    }
+
+    public void setRefundServiceFee(String refundServiceFee) {
+        this.refundServiceFee = refundServiceFee;
     }
 }

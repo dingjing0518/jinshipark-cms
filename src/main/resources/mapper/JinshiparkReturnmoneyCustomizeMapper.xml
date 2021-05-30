@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinshipark.cms.mapper.JinshiparkReturnmoneyCustomizeMapper">
+    <resultMap id="BaseResultMap" type="com.jinshipark.cms.model.JinshiparkReturnmoney">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="CarNum" jdbcType="VARCHAR" property="carnum"/>
+        <result column="OrderID" jdbcType="VARCHAR" property="orderid"/>
+        <result column="HFOrderID" jdbcType="VARCHAR" property="hforderid"/>
+        <result column="ReturnMoney" jdbcType="VARCHAR" property="returnmoney"/>
+        <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="UserName" jdbcType="VARCHAR" property="username"/>
+        <result column="ParkID" jdbcType="VARCHAR" property="parkid"/>
+        <result column="Remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+    <select id="summary" parameterType="Map" resultType="com.jinshipark.cms.vo.SummaryVO">
+        SELECT
+            SUM(ReturnMoney) AS refundMoney,
+            SUM(CAST(RefundServiceFee AS DECIMAL(12, 2))) AS refundServiceFee
+        FROM
+            jinshipark_returnmoney
+        WHERE
+            1=1
+        <if test="parkId != null">
+            AND ParkID=#{parkId}
+        </if>
+        <if test="startTime != null">
+            AND CreateTime&gt;=#{startTime}
+        </if>
+        <if test="endTime != null">
+            AND CreateTime&lt;=#{endTime}
+        </if>
+    </select>
+    <select id="dailySummary" resultType="com.jinshipark.cms.vo.SummaryVO">
+        SELECT
+          ParkID AS parkId,
+          SUM(ReturnMoney) AS refundMoney,
+          SUM(CAST(RefundServiceFee AS DECIMAL(12, 2))) AS refundServiceFee
+        FROM
+          jinshipark_returnmoney
+         WHERE
+          DATE_FORMAT(
+              CreateTime,
+              '%Y-%m-%d'
+          ) = date_sub(curdate(), INTERVAL 1 DAY)
+        GROUP BY
+          ParkID
+    </select>
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jinshipark.cms.mapper.JinshiparkDaysumCustomizeMapper">
+  <resultMap id="BaseResultMap" type="com.jinshipark.cms.model.JinshiparkDaysum">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="Date" jdbcType="TIMESTAMP" property="date" />
+    <result column="CarSum" jdbcType="VARCHAR" property="carsum" />
+    <result column="ParkFee" jdbcType="VARCHAR" property="parkfee" />
+    <result column="RealParkFee" jdbcType="VARCHAR" property="realparkfee" />
+    <result column="ReturnMoney" jdbcType="VARCHAR" property="returnmoney" />
+    <result column="ParkID" jdbcType="VARCHAR" property="parkid" />
+    <result column="Remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+
+  <insert id="batchInsert" parameterType="List">
+    insert into
+        jinshipark_daysum
+        (
+          Date,
+          CarSum,
+          ParkFee,
+          RealParkFee,
+          PrePayMoney,
+          ScanPayMoney,
+          ManualMoney,
+          ServiceFee,
+          ReturnMoney,
+          RefundServiceFee,
+          ParkID,
+          Remarks
+        )
+    values
+    <foreach collection="jinshiparkDaysumList" item="item" index="index" separator=",">
+      (
+        date_sub(curdate(),interval 1 day),
+        #{item.carNum},
+        #{item.parkingCost},
+        #{item.realCost},
+        #{item.prePayMoney},
+        #{item.scanPayMoney},
+        #{item.manualMoney},
+        #{item.serviceFee},
+        #{item.refundMoney},
+        #{item.refundServiceFee},
+        #{item.parkId},
+        #{item.remarks}
+      )
+    </foreach>
+  </insert>
+  <select id="dailySummary" parameterType="Map" resultType="com.jinshipark.cms.vo.SummaryVO">
+    SELECT
+        DATE_FORMAT(Date, '%Y-%m-%d') AS date,
+        CarSum AS carNum,
+        ParkFee AS parkingCost,
+        RealParkFee AS realCost,
+        PrePayMoney AS prePayMoney,
+        ScanPayMoney AS scanPayMoney,
+        ManualMoney AS manualMoney,
+        ServiceFee AS serviceFee,
+        ReturnMoney AS refundMoney,
+        RefundServiceFee AS refundServiceFee
+    FROM
+        jinshipark_daysum
+    WHERE
+        1=1
+    <if test="parkId != null">
+      AND ParkID = #{parkId}
+    </if>
+    <if test="startTime != null">
+      AND DATE_FORMAT(Date, '%Y-%m-%d') &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+      AND DATE_FORMAT(Date, '%Y-%m-%d') &lt;= #{endTime}
+    </if>
+    ORDER BY
+        DATE_FORMAT(Date, '%Y-%m-%d') DESC
+  </select>
+  <select id="monthlySummary" parameterType="Map" resultType="com.jinshipark.cms.vo.SummaryVO">
+    SELECT
+        DATE_FORMAT(Date, '%Y-%m') AS date,
+        sum(CAST(CarSum AS DECIMAL(12, 0))) AS carNum,
+        sum(CAST(ParkFee AS DECIMAL(12, 1))) AS parkingCost,
+        sum(CAST(RealParkFee AS DECIMAL(12, 1))) AS realCost,
+        sum(CAST(PrePayMoney AS DECIMAL(12, 1))) AS prePayMoney,
+        sum(CAST(ScanPayMoney AS DECIMAL(12, 1))) AS scanPayMoney,
+        sum(CAST(ManualMoney AS DECIMAL(12, 1))) AS manualMoney,
+        sum(CAST(ServiceFee AS DECIMAL(12, 2))) AS serviceFee,
+        sum(CAST(ReturnMoney AS DECIMAL(12, 1))) AS refundMoney,
+        sum(CAST(RefundServiceFee AS DECIMAL(12, 2))) AS refundServiceFee
+    FROM
+        jinshipark_daysum
+    WHERE
+        1 = 1
+    <if test="parkId != null">
+        AND ParkID = #{parkId}
+    </if>
+    <if test="startTime != null">
+        AND DATE_FORMAT(Date, '%Y-%m') &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+        AND DATE_FORMAT(Date, '%Y-%m') &lt;= #{endTime}
+    </if>
+    GROUP BY
+        DATE_FORMAT(Date, '%Y-%m')
+    ORDER BY
+        DATE_FORMAT(Date, '%Y-%m') DESC
+  </select>
+  <select id="annuallySummary" parameterType="Map" resultType="com.jinshipark.cms.vo.SummaryVO">
+    SELECT
+      DATE_FORMAT(Date, '%Y') AS date,
+      sum(CAST(CarSum AS DECIMAL(12, 0))) AS carNum,
+      sum(CAST(ParkFee AS DECIMAL(12, 1))) AS parkingCost,
+      sum(CAST(RealParkFee AS DECIMAL(12, 1))) AS realCost,
+      sum(CAST(PrePayMoney AS DECIMAL(12, 1))) AS prePayMoney,
+      sum(CAST(ScanPayMoney AS DECIMAL(12, 1))) AS scanPayMoney,
+      sum(CAST(ManualMoney AS DECIMAL(12, 1))) AS manualMoney,
+      sum(CAST(ServiceFee AS DECIMAL(12, 2))) AS serviceFee,
+      sum(CAST(ReturnMoney AS DECIMAL(12, 1))) AS refundMoney,
+      sum(CAST(RefundServiceFee AS DECIMAL(12, 2))) AS refundServiceFee
+    FROM
+        jinshipark_daysum
+    WHERE
+        1 = 1
+    <if test="parkId != null">
+        AND ParkID = #{parkId}
+    </if>
+    <if test="startTime != null">
+        AND DATE_FORMAT(Date, '%Y') &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+        AND DATE_FORMAT(Date, '%Y') &lt;= #{endTime}
+    </if>
+    GROUP BY
+        DATE_FORMAT(Date, '%Y')
+    ORDER BY
+        DATE_FORMAT(Date, '%Y') DESC
+  </select>
+</mapper>

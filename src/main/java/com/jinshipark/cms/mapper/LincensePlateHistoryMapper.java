@@ -2,11 +2,7 @@ package com.jinshipark.cms.mapper;
 
 import com.jinshipark.cms.model.LincensePlateHistory;
 import com.jinshipark.cms.model.LincensePlateHistoryExample;
-
 import java.util.List;
-import java.util.Map;
-
-import com.jinshipark.cms.vo.SummaryVO;
 import org.apache.ibatis.annotations.Param;
 
 public interface LincensePlateHistoryMapper {
@@ -31,8 +27,4 @@ public interface LincensePlateHistoryMapper {
     int updateByPrimaryKeySelective(LincensePlateHistory record);
 
     int updateByPrimaryKey(LincensePlateHistory record);
-
-    List<SummaryVO> summary(Map<String, Object> map);
-
-    List<SummaryVO> dailySummary();
 }

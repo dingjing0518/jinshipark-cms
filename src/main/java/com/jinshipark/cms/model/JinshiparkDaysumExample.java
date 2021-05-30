@@ -435,6 +435,286 @@ public class JinshiparkDaysumExample {
             return (Criteria) this;
         }
 
+        public Criteria andPrepaymoneyIsNull() {
+            addCriterion("PrePayMoney is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyIsNotNull() {
+            addCriterion("PrePayMoney is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyEqualTo(String value) {
+            addCriterion("PrePayMoney =", value, "prepaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyNotEqualTo(String value) {
+            addCriterion("PrePayMoney <>", value, "prepaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyGreaterThan(String value) {
+            addCriterion("PrePayMoney >", value, "prepaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyGreaterThanOrEqualTo(String value) {
+            addCriterion("PrePayMoney >=", value, "prepaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyLessThan(String value) {
+            addCriterion("PrePayMoney <", value, "prepaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyLessThanOrEqualTo(String value) {
+            addCriterion("PrePayMoney <=", value, "prepaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyLike(String value) {
+            addCriterion("PrePayMoney like", value, "prepaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyNotLike(String value) {
+            addCriterion("PrePayMoney not like", value, "prepaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyIn(List<String> values) {
+            addCriterion("PrePayMoney in", values, "prepaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyNotIn(List<String> values) {
+            addCriterion("PrePayMoney not in", values, "prepaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyBetween(String value1, String value2) {
+            addCriterion("PrePayMoney between", value1, value2, "prepaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrepaymoneyNotBetween(String value1, String value2) {
+            addCriterion("PrePayMoney not between", value1, value2, "prepaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyIsNull() {
+            addCriterion("ScanPayMoney is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyIsNotNull() {
+            addCriterion("ScanPayMoney is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyEqualTo(String value) {
+            addCriterion("ScanPayMoney =", value, "scanpaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyNotEqualTo(String value) {
+            addCriterion("ScanPayMoney <>", value, "scanpaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyGreaterThan(String value) {
+            addCriterion("ScanPayMoney >", value, "scanpaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyGreaterThanOrEqualTo(String value) {
+            addCriterion("ScanPayMoney >=", value, "scanpaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyLessThan(String value) {
+            addCriterion("ScanPayMoney <", value, "scanpaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyLessThanOrEqualTo(String value) {
+            addCriterion("ScanPayMoney <=", value, "scanpaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyLike(String value) {
+            addCriterion("ScanPayMoney like", value, "scanpaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyNotLike(String value) {
+            addCriterion("ScanPayMoney not like", value, "scanpaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyIn(List<String> values) {
+            addCriterion("ScanPayMoney in", values, "scanpaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyNotIn(List<String> values) {
+            addCriterion("ScanPayMoney not in", values, "scanpaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyBetween(String value1, String value2) {
+            addCriterion("ScanPayMoney between", value1, value2, "scanpaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andScanpaymoneyNotBetween(String value1, String value2) {
+            addCriterion("ScanPayMoney not between", value1, value2, "scanpaymoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyIsNull() {
+            addCriterion("ManualMoney is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyIsNotNull() {
+            addCriterion("ManualMoney is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyEqualTo(String value) {
+            addCriterion("ManualMoney =", value, "manualmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyNotEqualTo(String value) {
+            addCriterion("ManualMoney <>", value, "manualmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyGreaterThan(String value) {
+            addCriterion("ManualMoney >", value, "manualmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyGreaterThanOrEqualTo(String value) {
+            addCriterion("ManualMoney >=", value, "manualmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyLessThan(String value) {
+            addCriterion("ManualMoney <", value, "manualmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyLessThanOrEqualTo(String value) {
+            addCriterion("ManualMoney <=", value, "manualmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyLike(String value) {
+            addCriterion("ManualMoney like", value, "manualmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyNotLike(String value) {
+            addCriterion("ManualMoney not like", value, "manualmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyIn(List<String> values) {
+            addCriterion("ManualMoney in", values, "manualmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyNotIn(List<String> values) {
+            addCriterion("ManualMoney not in", values, "manualmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyBetween(String value1, String value2) {
+            addCriterion("ManualMoney between", value1, value2, "manualmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andManualmoneyNotBetween(String value1, String value2) {
+            addCriterion("ManualMoney not between", value1, value2, "manualmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeIsNull() {
+            addCriterion("ServiceFee is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeIsNotNull() {
+            addCriterion("ServiceFee is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeEqualTo(String value) {
+            addCriterion("ServiceFee =", value, "servicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeNotEqualTo(String value) {
+            addCriterion("ServiceFee <>", value, "servicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeGreaterThan(String value) {
+            addCriterion("ServiceFee >", value, "servicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeGreaterThanOrEqualTo(String value) {
+            addCriterion("ServiceFee >=", value, "servicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeLessThan(String value) {
+            addCriterion("ServiceFee <", value, "servicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeLessThanOrEqualTo(String value) {
+            addCriterion("ServiceFee <=", value, "servicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeLike(String value) {
+            addCriterion("ServiceFee like", value, "servicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeNotLike(String value) {
+            addCriterion("ServiceFee not like", value, "servicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeIn(List<String> values) {
+            addCriterion("ServiceFee in", values, "servicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeNotIn(List<String> values) {
+            addCriterion("ServiceFee not in", values, "servicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeBetween(String value1, String value2) {
+            addCriterion("ServiceFee between", value1, value2, "servicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andServicefeeNotBetween(String value1, String value2) {
+            addCriterion("ServiceFee not between", value1, value2, "servicefee");
+            return (Criteria) this;
+        }
+
         public Criteria andReturnmoneyIsNull() {
             addCriterion("ReturnMoney is null");
             return (Criteria) this;
@@ -502,6 +782,76 @@ public class JinshiparkDaysumExample {
 
         public Criteria andReturnmoneyNotBetween(String value1, String value2) {
             addCriterion("ReturnMoney not between", value1, value2, "returnmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeIsNull() {
+            addCriterion("RefundServiceFee is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeIsNotNull() {
+            addCriterion("RefundServiceFee is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeEqualTo(String value) {
+            addCriterion("RefundServiceFee =", value, "refundservicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeNotEqualTo(String value) {
+            addCriterion("RefundServiceFee <>", value, "refundservicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeGreaterThan(String value) {
+            addCriterion("RefundServiceFee >", value, "refundservicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeGreaterThanOrEqualTo(String value) {
+            addCriterion("RefundServiceFee >=", value, "refundservicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeLessThan(String value) {
+            addCriterion("RefundServiceFee <", value, "refundservicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeLessThanOrEqualTo(String value) {
+            addCriterion("RefundServiceFee <=", value, "refundservicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeLike(String value) {
+            addCriterion("RefundServiceFee like", value, "refundservicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeNotLike(String value) {
+            addCriterion("RefundServiceFee not like", value, "refundservicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeIn(List<String> values) {
+            addCriterion("RefundServiceFee in", values, "refundservicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeNotIn(List<String> values) {
+            addCriterion("RefundServiceFee not in", values, "refundservicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeBetween(String value1, String value2) {
+            addCriterion("RefundServiceFee between", value1, value2, "refundservicefee");
+            return (Criteria) this;
+        }
+
+        public Criteria andRefundservicefeeNotBetween(String value1, String value2) {
+            addCriterion("RefundServiceFee not between", value1, value2, "refundservicefee");
             return (Criteria) this;
         }
 
